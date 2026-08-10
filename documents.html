@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Documents — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#070711;
+    color:#f5f3ff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    width:550px;
+    height:550px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.2;
+}
+
+.orb.one{
+    background:#48d9ff;
+    top:-230px;
+    right:-180px;
+    animation:floatOne 15s ease-in-out infinite alternate;
+}
+
+.orb.two{
+    background:#765cff;
+    bottom:-250px;
+    left:-180px;
+    animation:floatTwo 18s ease-in-out infinite alternate;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:80px 80px;
+}
+
+@keyframes floatOne{
+    to{
+        transform:translate(-100px,100px) scale(1.2);
+    }
+}
+
+@keyframes floatTwo{
+    to{
+        transform:translate(100px,-100px) scale(1.15);
+    }
+}
+
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-content{
+    text-align:center;
+}
+
+.intro-icon{
+    width:75px;
+    height:75px;
+    margin:auto;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    background:linear-gradient(135deg,#55d9ff,#7565ff);
+    animation:pulse 1.7s infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:48px;
+    margin-top:25px;
+}
+
+.intro p{
+    color:#777383;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-top:8px;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    margin:25px auto;
+    background:linear-gradient(90deg,transparent,#5edfff,transparent);
+    animation:grow 1s ease .2s forwards;
+}
+
+@keyframes pulse{
+    50%{
+        transform:translateY(-6px) scale(1.04);
+    }
+}
+
+@keyframes grow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#55dfff,#7268ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#fff;
+    transform:translateX(-4px);
+}
+
+/* HERO */
+
+.hero{
+    min-height:80vh;
+    padding:180px 8vw 100px;
+}
+
+.eyebrow{
+    color:#70dfff;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,120px);
+    line-height:.88;
+    margin-top:25px;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#6edfff;
+}
+
+.hero p{
+    max-width:550px;
+    color:#9591a1;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* DOCUMENTS */
+
+.documents{
+    padding:100px 7vw 150px;
+}
+
+.documents h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,6vw,70px);
+    margin-top:15px;
+}
+
+.doc-grid{
+    margin-top:60px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.doc{
+    min-height:320px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:27px;
+    background:rgba(255,255,255,.045);
+    transition:.6s cubic-bezier(.2,.8,.2,1);
+    overflow:hidden;
+    position:relative;
+}
+
+.doc:hover{
+    transform:translateY(-12px);
+    border-color:rgba(90,220,255,.45);
+}
+
+.paper{
+    height:170px;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:65px;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(80,210,255,.25),
+            transparent 45%
+        ),
+        linear-gradient(145deg,#191926,#0f0f19);
+}
+
+.doc h3{
+    margin-top:20px;
+    font-size:19px;
+}
+
+.doc p{
+    margin-top:7px;
+    color:#777383;
+    font-size:12px;
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+@media(max-width:800px){
+
+    .doc-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-icon">◈</div>
+
+        <h1>Documents</h1>
+
+        <p>HouseMemory Collection 03</p>
+
+        <div class="intro-line"></div>
+
+    </div>
+
+</div>
+
+<div class="bg">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="grid"></div>
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+        <div class="logo-icon">⌂</div>
+        <span>HouseMemory</span>
+    </div>
+
+    <a class="back" href="index.html">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="eyebrow">
+        Collection 03 / Documents
+    </div>
+
+    <h1>
+        Keep the<br>
+        <span>important things.</span>
+    </h1>
+
+    <p>
+        Certificates, warranties, receipts, property records
+        and household documents — safely gathered into
+        one digital archive.
+    </p>
+
+</section>
+
+<section class="documents">
+
+    <div class="reveal">
+
+        <div class="eyebrow">
+            Document archive
+        </div>
+
+        <h2>
+            Your records.
+        </h2>
+
+    </div>
+
+    <div class="doc-grid">
+
+        <div class="doc reveal">
+            <div class="paper">📄</div>
+            <h3>House Documents</h3>
+            <p>Property and household records</p>
+        </div>
+
+        <div class="doc reveal">
+            <div class="paper">🧾</div>
+            <h3>Receipts</h3>
+            <p>Purchases and proof of ownership</p>
+        </div>
+
+        <div class="doc reveal">
+            <div class="paper">🛡</div>
+            <h3>Warranties</h3>
+            <p>Equipment warranty information</p>
+        </div>
+
+        <div class="doc reveal">
+            <div class="paper">📜</div>
+            <h3>Certificates</h3>
+            <p>Important household certificates</p>
+        </div>
+
+        <div class="doc reveal">
+            <div class="paper">🔐</div>
+            <h3>Private Files</h3>
+            <p>Sensitive household documents</p>
+        </div>
+
+        <div class="doc reveal">
+            <div class="paper">＋</div>
+            <h3>Add Document</h3>
+            <p>Upload another important file</p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <span>HouseMemory</span>
+    <span>Your home remembers.</span>
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(el){
+    observer.observe(el);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>

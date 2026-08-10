@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Memories — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#070711;
+    color:#f5f3ff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    width:550px;
+    height:550px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.2;
+}
+
+.orb.a{
+    background:#ff62d4;
+    top:-250px;
+    left:-180px;
+    animation:moveA 16s ease-in-out infinite alternate;
+}
+
+.orb.b{
+    background:#7564ff;
+    bottom:-250px;
+    right:-180px;
+    animation:moveB 18s ease-in-out infinite alternate;
+}
+
+@keyframes moveA{
+    to{
+        transform:translate(100px,100px) scale(1.2);
+    }
+}
+
+@keyframes moveB{
+    to{
+        transform:translate(-100px,-100px) scale(1.15);
+    }
+}
+
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-content{
+    text-align:center;
+}
+
+.intro-icon{
+    width:75px;
+    height:75px;
+    border-radius:25px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:31px;
+    background:linear-gradient(135deg,#ff70d5,#7868ff);
+    animation:floatIcon 1.8s ease-in-out infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:48px;
+    margin-top:25px;
+}
+
+.intro p{
+    color:#777383;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-top:8px;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    margin:25px auto;
+    background:linear-gradient(90deg,transparent,#ff7bd7,transparent);
+    animation:grow 1s ease .2s forwards;
+}
+
+@keyframes floatIcon{
+    50%{
+        transform:translateY(-8px) rotate(3deg);
+    }
+}
+
+@keyframes grow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#ff70d5,#7868ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:white;
+    transform:translateX(-4px);
+}
+
+/* HERO */
+
+.hero{
+    min-height:80vh;
+    padding:180px 8vw 100px;
+}
+
+.eyebrow{
+    color:#ff80d8;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,120px);
+    line-height:.88;
+    margin-top:25px;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#ff79d7;
+}
+
+.hero p{
+    color:#9995a5;
+    max-width:550px;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* MEMORIES */
+
+.memories{
+    padding:100px 7vw 150px;
+}
+
+.memories h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,6vw,70px);
+    margin-top:15px;
+}
+
+.memory-grid{
+    margin-top:60px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.memory{
+    height:380px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:28px;
+    overflow:hidden;
+    position:relative;
+    background:#12111d;
+    transition:.6s cubic-bezier(.2,.8,.2,1);
+}
+
+.memory:hover{
+    transform:translateY(-12px) scale(1.01);
+    border-color:rgba(255,120,215,.4);
+}
+
+.memory-image{
+    height:70%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:90px;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(255,120,210,.35),
+            transparent 40%
+        ),
+        #171522;
+    transition:.6s;
+}
+
+.memory:hover .memory-image{
+    transform:scale(1.05);
+}
+
+.memory-info{
+    padding:18px 20px;
+}
+
+.memory-info h3{
+    font-family:"Playfair Display",serif;
+    font-size:22px;
+}
+
+.memory-info p{
+    color:#777383;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.add{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    cursor:pointer;
+}
+
+.add-icon{
+    font-size:50px;
+    color:#8d84a0;
+    transition:.4s;
+}
+
+.add:hover .add-icon{
+    transform:rotate(90deg) scale(1.1);
+    color:#ff7fd8;
+}
+
+.add h3{
+    margin-top:20px;
+    font-family:"Playfair Display",serif;
+    font-size:22px;
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+@media(max-width:800px){
+
+    .memory-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-icon">✦</div>
+
+        <h1>Memories</h1>
+
+        <p>HouseMemory Collection 04</p>
+
+        <div class="intro-line"></div>
+
+    </div>
+
+</div>
+
+<div class="bg">
+
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+        <div class="logo-icon">⌂</div>
+        <span>HouseMemory</span>
+    </div>
+
+    <a class="back" href="index.html">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="eyebrow">
+        Collection 04 / Memories
+    </div>
+
+    <h1>
+        Keep the<br>
+        <span>moments alive.</span>
+    </h1>
+
+    <p>
+        Some things aren't useful.
+        They're simply important.
+        HouseMemory gives those moments a place to stay.
+    </p>
+
+</section>
+
+<section class="memories">
+
+    <div class="reveal">
+
+        <div class="eyebrow">
+            Memory collection
+        </div>
+
+        <h2>
+            Moments worth keeping.
+        </h2>
+
+    </div>
+
+    <div class="memory-grid">
+
+        <div class="memory reveal">
+
+            <div class="memory-image">
+                🏠
+            </div>
+
+            <div class="memory-info">
+                <h3>Our first home</h3>
+                <p>12 MARCH 2026</p>
+            </div>
+
+        </div>
+
+        <div class="memory reveal">
+
+            <div class="memory-image">
+                🎂
+            </div>
+
+            <div class="memory-info">
+                <h3>A birthday together</h3>
+                <p>18 JUNE 2026</p>
+            </div>
+
+        </div>
+
+        <div class="memory reveal">
+
+            <div class="memory-image">
+                🌧
+            </div>
+
+            <div class="memory-info">
+                <h3>The rainy evening</h3>
+                <p>04 JULY 2026</p>
+            </div>
+
+        </div>
+
+        <div class="memory reveal">
+
+            <div class="memory-image">
+                🌅
+            </div>
+
+            <div class="memory-info">
+                <h3>Sunday morning</h3>
+                <p>02 AUGUST 2026</p>
+            </div>
+
+        </div>
+
+        <div class="memory add reveal">
+
+            <div class="add-icon">＋</div>
+
+            <h3>Preserve a memory</h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <span>HouseMemory</span>
+    <span>Your home remembers.</span>
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(el){
+    observer.observe(el);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>

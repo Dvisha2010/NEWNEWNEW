@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login — HouseMemory</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+/* =========================================================
+   HOUSEMEMORY LOGIN
+   ========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:#070711;
+
+    color:#f5f3ff;
+
+    font-family:"DM Sans",sans-serif;
+
+    overflow-x:hidden;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:-10;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(100,110,255,.10),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(180,90,255,.09),
+            transparent 35%
+        ),
+        #070711;
+
+}
+
+
+.grid{
+
+    position:absolute;
+
+    inset:-100px;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size:80px 80px;
+
+    transform:perspective(600px)
+              rotateX(60deg)
+              scale(1.6);
+
+    transform-origin:center bottom;
+
+    opacity:.45;
+
+    animation:gridMove 20s linear infinite;
+
+}
+
+
+@keyframes gridMove{
+
+    from{
+        transform:
+            perspective(600px)
+            rotateX(60deg)
+            scale(1.6)
+            translateY(0);
+    }
+
+    to{
+        transform:
+            perspective(600px)
+            rotateX(60deg)
+            scale(1.6)
+            translateY(80px);
+    }
+
+}
+
+
+.orb{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(100px);
+
+    pointer-events:none;
+
+}
+
+
+.orb.one{
+
+    width:500px;
+    height:500px;
+
+    background:#596dff;
+
+    top:-250px;
+    left:-180px;
+
+    opacity:.22;
+
+    animation:
+        orbOne 12s ease-in-out infinite alternate;
+
+}
+
+
+.orb.two{
+
+    width:450px;
+    height:450px;
+
+    background:#a65cff;
+
+    right:-200px;
+    bottom:-200px;
+
+    opacity:.18;
+
+    animation:
+        orbTwo 15s ease-in-out infinite alternate;
+
+}
+
+
+.orb.three{
+
+    width:300px;
+    height:300px;
+
+    background:#45dfff;
+
+    left:45%;
+    top:45%;
+
+    opacity:.08;
+
+    animation:
+        orbThree 10s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes orbOne{
+
+    0%{
+        transform:translate(0,0) scale(1);
+    }
+
+    100%{
+        transform:translate(120px,80px) scale(1.15);
+    }
+
+}
+
+
+@keyframes orbTwo{
+
+    0%{
+        transform:translate(0,0) scale(1);
+    }
+
+    100%{
+        transform:translate(-100px,-80px) scale(1.2);
+    }
+
+}
+
+
+@keyframes orbThree{
+
+    0%{
+        transform:translate(-50px,-30px);
+    }
+
+    100%{
+        transform:translate(80px,60px);
+    }
+
+}
+
+
+/* =========================================================
+   TOP NAV
+   ========================================================= */
+
+.nav{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:20px 6vw;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    z-index:50;
+
+}
+
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    letter-spacing:.2px;
+
+}
+
+
+.logo-icon{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #667cff,
+            #a064ff
+        );
+
+    box-shadow:
+        0 10px 35px rgba(100,100,255,.25);
+
+    font-size:18px;
+
+}
+
+
+.back{
+
+    color:#8e8a9d;
+
+    text-decoration:none;
+
+    font-size:12px;
+
+    transition:.3s;
+
+}
+
+
+.back:hover{
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:120px 20px 70px;
+
+}
+
+
+/* =========================================================
+   LOGIN LAYOUT
+   ========================================================= */
+
+.login-layout{
+
+    width:min(1050px,100%);
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:70px;
+
+    align-items:center;
+
+}
+
+
+/* =========================================================
+   LEFT SIDE
+   ========================================================= */
+
+.story{
+
+    padding:20px;
+
+    animation:
+        storyIn 1s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+}
+
+
+@keyframes storyIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateX(-50px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateX(0);
+
+    }
+
+}
+
+
+.eyebrow{
+
+    color:#8796ff;
+
+    font-size:10px;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    margin-bottom:25px;
+
+}
+
+
+.story h1{
+
+    font-family:"Playfair Display",serif;
+
+    font-size:
+        clamp(
+            55px,
+            7vw,
+            95px
+        );
+
+    line-height:.9;
+
+    letter-spacing:-3px;
+
+}
+
+
+.story h1 span{
+
+    color:#8390ff;
+
+}
+
+
+.story-text{
+
+    max-width:480px;
+
+    margin-top:30px;
+
+    color:#9290a0;
+
+    line-height:1.8;
+
+    font-size:14px;
+
+}
+
+
+.quote{
+
+    margin-top:45px;
+
+    padding-left:20px;
+
+    border-left:
+        1px solid
+        rgba(130,140,255,.5);
+
+    color:#777486;
+
+    font-size:12px;
+
+    line-height:1.7;
+
+}
+
+
+.quote strong{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:#aaa6b7;
+
+    font-weight:500;
+
+}
+
+
+/* =========================================================
+   FLOATING HOUSE
+   ========================================================= */
+
+.house-display{
+
+    margin-top:50px;
+
+    width:190px;
+
+    height:190px;
+
+    position:relative;
+
+    animation:
+        houseFloat 5s ease-in-out infinite;
+
+}
+
+
+@keyframes houseFloat{
+
+    0%,
+    100%{
+
+        transform:
+            translateY(0)
+            rotate(-2deg);
+
+    }
+
+    50%{
+
+        transform:
+            translateY(-14px)
+            rotate(2deg);
+
+    }
+
+}
+
+
+.house-glow{
+
+    position:absolute;
+
+    inset:20px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(110,125,255,.35),
+            transparent 65%
+        );
+
+    filter:blur(25px);
+
+}
+
+
+.house-shape{
+
+    position:absolute;
+
+    width:90px;
+
+    height:75px;
+
+    left:50%;
+
+    top:55%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+        linear-gradient(
+            145deg,
+            #303454,
+            #161727
+        );
+
+    border-radius:8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    box-shadow:
+        0 30px 60px
+        rgba(0,0,0,.4);
+
+}
+
+
+.house-shape::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:65px;
+
+    height:65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #596bff,
+            #a163ff
+        );
+
+    left:50%;
+
+    top:-32px;
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
+
+    border-radius:8px 0 8px 0;
+
+    opacity:.85;
+
+}
+
+
+.house-door{
+
+    position:absolute;
+
+    width:20px;
+
+    height:35px;
+
+    bottom:0;
+
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    background:#090a12;
+
+    border-radius:
+        5px 5px 0 0;
+
+    z-index:2;
+
+}
+
+
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
+
+.login-card{
+
+    position:relative;
+
+    padding:42px;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.11);
+
+    backdrop-filter:
+        blur(25px);
+
+    box-shadow:
+
+        0 40px 100px
+        rgba(0,0,0,.45),
+
+        inset 0 1px 0
+        rgba(255,255,255,.05);
+
+    animation:
+        cardIn 1s
+        .15s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+    overflow:hidden;
+
+}
+
+
+@keyframes cardIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(40px)
+            scale(.96);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+.login-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+
+    height:250px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(110,120,255,.13),
+            transparent 70%
+        );
+
+    top:-150px;
+
+    right:-100px;
+
+    pointer-events:none;
+
+}
+
+
+.card-header{
+
+    margin-bottom:32px;
+
+}
+
+
+.card-header h2{
+
+    font-family:"Playfair Display",serif;
+
+    font-size:38px;
+
+    font-weight:500;
+
+}
+
+
+.card-header p{
+
+    color:#777486;
+
+    font-size:12px;
+
+    margin-top:8px;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+
+.form-label{
+
+    display:block;
+
+    color:#aaa6b7;
+
+    font-size:11px;
+
+    margin-bottom:9px;
+
+}
+
+
+.input-wrap{
+
+    position:relative;
+
+}
+
+
+.input-icon{
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    color:#696677;
+
+    font-size:14px;
+
+    pointer-events:none;
+
+}
+
+
+.input{
+
+    width:100%;
+
+    height:54px;
+
+    padding:
+        0 17px
+        0 44px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    background:
+        rgba(0,0,0,.18);
+
+    color:white;
+
+    outline:none;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size:13px;
+
+    transition:.3s;
+
+}
+
+
+.input::placeholder{
+
+    color:#5e5a69;
+
+}
+
+
+.input:focus{
+
+    border-color:
+        rgba(125,140,255,.7);
+
+    background:
+        rgba(90,100,180,.07);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(100,110,255,.08);
+
+}
+
+
+.password-toggle{
+
+    position:absolute;
+
+    right:14px;
+
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    border:none;
+
+    background:none;
+
+    color:#777383;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    padding:5px;
+
+}
+
+
+.password-toggle:hover{
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   OPTIONS
+   ========================================================= */
+
+.form-options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:
+        3px 0
+        25px;
+
+}
+
+
+.remember{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#777383;
+
+    font-size:11px;
+
+    cursor:pointer;
+
+}
+
+
+.remember input{
+
+    accent-color:#7b88ff;
+
+}
+
+
+.forgot{
+
+    color:#8490ff;
+
+    font-size:11px;
+
+    text-decoration:none;
+
+}
+
+
+.forgot:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.login-button{
+
+    width:100%;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6379ff,
+            #9a62ff
+        );
+
+    box-shadow:
+        0 15px 35px
+        rgba(100,100,255,.2);
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+
+.login-button::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-100%;
+
+    width:70%;
+
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.2),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+
+    transition:.6s;
+
+}
+
+
+.login-button:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 20px 45px
+        rgba(100,100,255,.3);
+
+}
+
+
+.login-button:hover::before{
+
+    left:130%;
+
+}
+
+
+.login-button:active{
+
+    transform:
+        translateY(0)
+        scale(.98);
+
+}
+
+
+.login-button.loading{
+
+    pointer-events:none;
+
+    opacity:.75;
+
+}
+
+
+.button-content{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+}
+
+
+.spinner{
+
+    width:16px;
+
+    height:16px;
+
+    border:
+        2px solid
+        rgba(255,255,255,.3);
+
+    border-top-color:white;
+
+    border-radius:50%;
+
+    animation:
+        spin .7s linear infinite;
+
+    display:none;
+
+}
+
+
+.loading .spinner{
+
+    display:block;
+
+}
+
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.divider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin:27px 0;
+
+    color:#5e5a69;
+
+    font-size:10px;
+
+}
+
+
+.divider::before,
+.divider::after{
+
+    content:"";
+
+    height:1px;
+
+    flex:1;
+
+    background:
+        rgba(255,255,255,.08);
+
+}
+
+
+/* =========================================================
+   SIGNUP
+   ========================================================= */
+
+.signup{
+
+    text-align:center;
+
+    color:#777383;
+
+    font-size:11px;
+
+}
+
+
+.signup a{
+
+    color:#8995ff;
+
+    text-decoration:none;
+
+    margin-left:5px;
+
+}
+
+
+.signup a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+   ========================================================= */
+
+.status{
+
+    display:none;
+
+    padding:12px 14px;
+
+    border-radius:13px;
+
+    margin-bottom:18px;
+
+    font-size:11px;
+
+    line-height:1.5;
+
+}
+
+
+.status.show{
+
+    display:block;
+
+}
+
+
+.status.error{
+
+    color:#ff9eae;
+
+    background:
+        rgba(255,80,110,.08);
+
+    border:
+        1px solid
+        rgba(255,80,110,.15);
+
+}
+
+
+.status.success{
+
+    color:#76e7b3;
+
+    background:
+        rgba(70,230,160,.08);
+
+    border:
+        1px solid
+        rgba(70,230,160,.15);
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer{
+
+    position:fixed;
+
+    bottom:20px;
+
+    left:0;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    color:#555260;
+
+    font-size:10px;
+
+    pointer-events:none;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:850px){
+
+    .login-layout{
+
+        grid-template-columns:1fr;
+
+        max-width:520px;
+
+        gap:35px;
+
+    }
+
+    .story{
+
+        text-align:center;
+
+        padding:10px;
+
+    }
+
+    .story-text{
+
+        margin-left:auto;
+        margin-right:auto;
+
+    }
+
+    .quote{
+
+        display:none;
+
+    }
+
+    .house-display{
+
+        display:none;
+
+    }
+
+    .login-card{
+
+        padding:30px;
+
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .nav{
+
+        padding:
+            16px 20px;
+
+    }
+
+    .back{
+
+        font-size:11px;
+
+    }
+
+    .main{
+
+        padding:
+            100px 15px
+            60px;
+
+    }
+
+    .login-card{
+
+        padding:25px;
+
+        border-radius:25px;
+
+    }
+
+    .card-header h2{
+
+        font-size:32px;
+
+    }
+
+    .story h1{
+
+        font-size:58px;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     BACKGROUND
+     ======================================================= -->
+
+<div class="background">
+
+    <div class="orb one"></div>
+
+    <div class="orb two"></div>
+
+    <div class="orb three"></div>
+
+    <div class="grid"></div>
+
+</div>
+
+
+<!-- =======================================================
+     NAVIGATION
+     ======================================================= -->
+
+<nav class="nav">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ⌂
+        </div>
+
+        <span>
+            HouseMemory
+        </span>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="back"
+    >
+        ← Back to archive
+    </a>
+
+</nav>
+
+
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
+
+<main class="main">
+
+    <div class="login-layout">
+
+
+        <!-- =================================================
+             STORY
+             ================================================= -->
+
+        <section class="story">
+
+            <div class="eyebrow">
+                HOUSEHOLD ARCHIVE
+            </div>
+
+
+            <h1>
+
+                Welcome<br>
+
+                <span>home.</span>
+
+            </h1>
+
+
+            <p class="story-text">
+
+                Your household has a story.
+
+                HouseMemory gives that story
+                somewhere to live — from the
+                people inside it to the objects,
+                documents and moments that matter.
+
+            </p>
+
+
+            <div class="quote">
+
+                "The things we keep
+                become part of who we are."
+
+                <strong>
+                    — HouseMemory
+                </strong>
+
+            </div>
+
+
+            <div class="house-display">
+
+                <div class="house-glow"></div>
+
+                <div class="house-shape">
+
+                    <div class="house-door"></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LOGIN CARD
+             ================================================= -->
+
+        <section class="login-card">
+
+
+            <div class="card-header">
+
+                <div class="eyebrow">
+                    PRIVATE ARCHIVE
+                </div>
+
+                <h2>
+                    Sign in
+                </h2>
+
+                <p>
+                    Enter your details to access
+                    your household.
+                </p>
+
+            </div>
+
+
+            <div
+                id="status"
+                class="status"
+            ></div>
+
+
+            <form id="loginForm">
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="email"
+                    >
+                        Email address
+                    </label>
+
+
+                    <div class="input-wrap">
+
+                        <span class="input-icon">
+                            @
+                        </span>
+
+                        <input
+                            class="input"
+                            id="email"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="password"
+                    >
+                        Password
+                    </label>
+
+
+                    <div class="input-wrap">
+
+                        <span class="input-icon">
+                            ◉
+                        </span>
+
+                        <input
+                            class="input"
+                            id="password"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="Enter your password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="Show password"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="remember"
+                        >
+
+                        Remember me
+
+                    </label>
+
+
+                    <a
+                        href="#"
+                        class="forgot"
+                        id="forgotPassword"
+                    >
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+
+                    <span class="button-content">
+
+                        <span
+                            class="spinner"
+                            id="spinner"
+                        ></span>
+
+                        <span id="buttonText">
+                            Enter HouseMemory
+                        </span>
+
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+            <div class="divider">
+                OR
+            </div>
+
+
+            <div class="signup">
+
+                Don't have a household account?
+
+                <a href="signup.html">
+                    Create one
+                </a>
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<div class="footer">
+
+    HouseMemory · Your home remembers.
+
+</div>
+
+
+<!-- =======================================================
+     SUPABASE
+     ======================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
+
+<script>
+
+/* ==========================================================
+   HOUSEMEMORY LOGIN LOGIC
+   ========================================================== */
+
+
+/* ----------------------------------------------------------
+   ELEMENTS
+   ---------------------------------------------------------- */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const emailInput =
+    document.getElementById("email");
+
+const passwordInput =
+    document.getElementById("password");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const buttonText =
+    document.getElementById("buttonText");
+
+const statusBox =
+    document.getElementById("status");
+
+const forgotPassword =
+    document.getElementById("forgotPassword");
+
+
+/* ----------------------------------------------------------
+   STATUS
+   ---------------------------------------------------------- */
+
+function showStatus(message,type){
+
+    statusBox.textContent =
+        message;
+
+    statusBox.className =
+        "status show " + type;
+
+}
+
+
+function clearStatus(){
+
+    statusBox.textContent =
+        "";
+
+    statusBox.className =
+        "status";
+
+}
+
+
+/* ----------------------------------------------------------
+   PASSWORD VISIBILITY
+   ---------------------------------------------------------- */
+
+passwordToggle.addEventListener(
+    "click",
+    () => {
+
+        const showing =
+            passwordInput.type === "text";
+
+        passwordInput.type =
+            showing
+                ? "password"
+                : "text";
+
+        passwordToggle.textContent =
+            showing
+                ? "Show"
+                : "Hide";
+
+        passwordToggle.setAttribute(
+            "aria-label",
+            showing
+                ? "Show password"
+                : "Hide password"
+        );
+
+    }
+);
+
+
+/* ----------------------------------------------------------
+   LOGIN
+   ---------------------------------------------------------- */
+
+loginForm.addEventListener(
+    "submit",
+    async(event) => {
+
+        event.preventDefault();
+
+        clearStatus();
+
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+
+        if(!email || !password){
+
+            showStatus(
+                "Please enter your email and password.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        loginButton.classList.add(
+            "loading"
+        );
+
+        buttonText.textContent =
+            "Opening your archive…";
+
+
+        try{
+
+            const client =
+                window.houseMemorySupabase;
+
+
+            if(!client){
+
+                throw new Error(
+                    "Supabase connection was not loaded."
+                );
+
+            }
+
+
+            const {
+                data,
+                error
+            } =
+                await client.auth.signInWithPassword({
+
+                    email:email,
+
+                    password:password
+
+                });
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            if(!data || !data.user){
+
+                throw new Error(
+                    "Login could not be completed."
+                );
+
+            }
+
+
+            showStatus(
+                "Welcome back. Opening your household…",
+                "success"
+            );
+
+
+            buttonText.textContent =
+                "Welcome home";
+
+
+            /*
+             * Small delay makes the successful
+             * transition feel intentional.
+             */
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                700
+            );
+
+
+        }
+        catch(error){
+
+            console.error(
+                "HouseMemory login error:",
+                error
+            );
+
+
+            let message =
+                "We couldn't sign you in. Please try again.";
+
+
+            if(
+                error &&
+                error.message
+            ){
+
+                if(
+                    error.message
+                    .toLowerCase()
+                    .includes("invalid login")
+                ){
+
+                    message =
+                        "The email or password is incorrect.";
+
+                }
+                else if(
+                    error.message
+                    .toLowerCase()
+                    .includes("email not confirmed")
+                ){
+
+                    message =
+                        "Please confirm your email before signing in.";
+
+                }
+                else{
+
+                    message =
+                        error.message;
+
+                }
+
+            }
+
+
+            showStatus(
+                message,
+                "error"
+            );
+
+
+            loginButton.classList.remove(
+                "loading"
+            );
+
+            buttonText.textContent =
+                "Enter HouseMemory";
+
+        }
+
+    }
+);
+
+
+/* ----------------------------------------------------------
+   FORGOT PASSWORD
+   ---------------------------------------------------------- */
+
+forgotPassword.addEventListener(
+    "click",
+    async(event) => {
+
+        event.preventDefault();
+
+        clearStatus();
+
+
+        const email =
+            emailInput.value.trim();
+
+
+        if(!email){
+
+            showStatus(
+                "Enter your email address first.",
+                "error"
+            );
+
+            emailInput.focus();
+
+            return;
+
+        }
+
+
+        try{
+
+            const client =
+                window.houseMemorySupabase;
+
+
+            if(!client){
+
+                throw new Error(
+                    "Supabase connection was not loaded."
+                );
+
+            }
+
+
+            const {
+                error
+            } =
+                await client.auth.resetPasswordForEmail(
+                    email,
+                    {
+                        redirectTo:
+                            window.location.origin +
+                            "/reset-password.html"
+                    }
+                );
+
+
+            if(error){
+
+                throw error;
+
+            }
+
+
+            showStatus(
+                "If that email belongs to an account, a password reset link has been sent.",
+                "success"
+            );
+
+        }
+        catch(error){
+
+            console.error(
+                "Password reset error:",
+                error
+            );
+
+
+            showStatus(
+                error.message ||
+                "Unable to send the password reset email.",
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* ----------------------------------------------------------
+   INPUT ANIMATION
+   ---------------------------------------------------------- */
+
+document
+    .querySelectorAll(".input")
+    .forEach(input => {
+
+        input.addEventListener(
+            "focus",
+            () => {
+
+                input
+                    .closest(".input-wrap")
+                    .style.transform =
+                    "translateY(-1px)";
+
+            }
+        );
+
+
+        input.addEventListener(
+            "blur",
+            () => {
+
+                input
+                    .closest(".input-wrap")
+                    .style.transform =
+                    "translateY(0)";
+
+            }
+        );
+
+    });
+
+
+/* ----------------------------------------------------------
+   ENTER KEY EXPERIENCE
+   ---------------------------------------------------------- */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Escape"
+        ){
+
+            clearStatus();
+
+        }
+
+    }
+);
+
+
+/* ----------------------------------------------------------
+   CHECK EXISTING SESSION
+   ---------------------------------------------------------- */
+
+(async function(){
+
+    try{
+
+        const client =
+            window.houseMemorySupabase;
+
+
+        if(!client){
+
+            console.warn(
+                "Supabase client unavailable."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data
+        } =
+            await client.auth.getSession();
+
+
+        if(
+            data &&
+            data.session &&
+            data.session.user
+        ){
+
+            /*
+             * The user is already logged in.
+             * We don't instantly redirect because
+             * that can make the page feel broken.
+             */
+
+            showStatus(
+                "You're already signed in. Opening your household…",
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },
+                900
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.warn(
+            "Session check failed:",
+            error
+        );
+
+    }
+
+})();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Maintenance — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#070711;
+    color:#f5f3ff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(110px);
+    opacity:.2;
+}
+
+.orb.a{
+    width:550px;
+    height:550px;
+    background:#9558ff;
+    top:-230px;
+    left:-180px;
+    animation:floatA 16s ease-in-out infinite alternate;
+}
+
+.orb.b{
+    width:500px;
+    height:500px;
+    background:#566fff;
+    right:-180px;
+    bottom:-250px;
+    animation:floatB 18s ease-in-out infinite alternate;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:80px 80px;
+}
+
+@keyframes floatA{
+    to{
+        transform:translate(100px,100px) scale(1.15);
+    }
+}
+
+@keyframes floatB{
+    to{
+        transform:translate(-100px,-80px) scale(1.2);
+    }
+}
+
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-inner{
+    text-align:center;
+}
+
+.intro-icon{
+    font-size:58px;
+    animation:spin 4s linear infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:48px;
+    margin-top:18px;
+}
+
+.intro p{
+    color:#777383;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-top:9px;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,#9a78ff,transparent);
+    margin:25px auto;
+    animation:lineGrow 1s ease .2s forwards;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes lineGrow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667cff,#9c65ff);
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#fff;
+    transform:translateX(-4px);
+}
+
+/* HERO */
+
+.hero{
+    min-height:85vh;
+    padding:180px 8vw 100px;
+}
+
+.eyebrow{
+    color:#9b87ff;
+    letter-spacing:4px;
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,120px);
+    line-height:.88;
+    margin-top:25px;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#9a78ff;
+}
+
+.hero p{
+    max-width:550px;
+    color:#9692a3;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* TASKS */
+
+.tasks{
+    padding:100px 7vw 150px;
+}
+
+.tasks h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,6vw,70px);
+    margin-top:15px;
+}
+
+.task-list{
+    margin-top:60px;
+    display:grid;
+    gap:15px;
+}
+
+.task{
+    padding:25px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:23px;
+    background:rgba(255,255,255,.045);
+    display:grid;
+    grid-template-columns:70px 1fr auto;
+    align-items:center;
+    transition:.5s cubic-bezier(.2,.8,.2,1);
+    position:relative;
+    overflow:hidden;
+}
+
+.task::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        90deg,
+        rgba(150,110,255,.08),
+        transparent 50%
+    );
+    opacity:0;
+    transition:.5s;
+}
+
+.task:hover{
+    transform:translateX(10px);
+    border-color:rgba(150,120,255,.45);
+}
+
+.task:hover::before{
+    opacity:1;
+}
+
+.task-icon{
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    background:rgba(255,255,255,.07);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    z-index:1;
+}
+
+.task h3,
+.task p,
+.badge{
+    position:relative;
+    z-index:1;
+}
+
+.task h3{
+    font-size:18px;
+}
+
+.task p{
+    color:#777383;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.badge{
+    padding:8px 12px;
+    border-radius:30px;
+    font-size:10px;
+    background:rgba(255,180,100,.08);
+    color:#ffbf79;
+}
+
+.badge.done{
+    background:rgba(100,240,180,.08);
+    color:#72e3b1;
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* FOOTER */
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+@media(max-width:700px){
+
+    .task{
+        grid-template-columns:55px 1fr;
+    }
+
+    .badge{
+        margin-top:15px;
+        grid-column:2;
+        width:max-content;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+    <div class="intro-inner">
+
+        <div class="intro-icon">🔧</div>
+
+        <h1>Maintenance</h1>
+
+        <p>HouseMemory Collection 02</p>
+
+        <div class="intro-line"></div>
+
+    </div>
+
+</div>
+
+<div class="bg">
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+    <div class="grid"></div>
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+        <div class="logo-icon">⌂</div>
+        <span>HouseMemory</span>
+    </div>
+
+    <a class="back" href="index.html">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="eyebrow">
+        Collection 02 / Maintenance
+    </div>
+
+    <h1>
+        Take care<br>
+        <span>of what matters.</span>
+    </h1>
+
+    <p>
+        Repairs, servicing, inspections and reminders.
+        HouseMemory keeps the history of your home
+        alive so nothing quietly gets forgotten.
+    </p>
+
+</section>
+
+<section class="tasks">
+
+    <div class="reveal">
+
+        <div class="eyebrow">
+            Maintenance archive
+        </div>
+
+        <h2>
+            What needs attention?
+        </h2>
+
+    </div>
+
+    <div class="task-list">
+
+        <div class="task reveal">
+
+            <div class="task-icon">❄</div>
+
+            <div>
+                <h3>Air conditioner service</h3>
+                <p>Living room · Due this month</p>
+            </div>
+
+            <span class="badge">
+                Due soon
+            </span>
+
+        </div>
+
+        <div class="task reveal">
+
+            <div class="task-icon">🚰</div>
+
+            <div>
+                <h3>Water filter replacement</h3>
+                <p>Kitchen · Scheduled</p>
+            </div>
+
+            <span class="badge">
+                Upcoming
+            </span>
+
+        </div>
+
+        <div class="task reveal">
+
+            <div class="task-icon">💡</div>
+
+            <div>
+                <h3>Replace hallway bulb</h3>
+                <p>Hallway · Added yesterday</p>
+            </div>
+
+            <span class="badge">
+                Open
+            </span>
+
+        </div>
+
+        <div class="task reveal">
+
+            <div class="task-icon">🧹</div>
+
+            <div>
+                <h3>Deep cleaning</h3>
+                <p>Whole house · Completed</p>
+            </div>
+
+            <span class="badge done">
+                Completed
+            </span>
+
+        </div>
+
+        <div class="task reveal">
+
+            <div class="task-icon">＋</div>
+
+            <div>
+                <h3>Add maintenance task</h3>
+                <p>Create a new reminder for your household.</p>
+            </div>
+
+            <span class="badge">
+                Add →
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <span>HouseMemory</span>
+    <span>Your home remembers.</span>
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(el){
+    observer.observe(el);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>

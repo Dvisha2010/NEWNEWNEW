@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Equipment — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+:root{
+    --bg:#070711;
+    --text:#f5f3ff;
+    --muted:#9290a0;
+    --accent:#7185ff;
+    --accent2:#a66cff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+/* ================= BACKGROUND ================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(110px);
+    opacity:.2;
+    pointer-events:none;
+}
+
+.orb.one{
+    width:550px;
+    height:550px;
+    background:#526fff;
+    top:-250px;
+    right:-150px;
+    animation:orbOne 15s ease-in-out infinite alternate;
+}
+
+.orb.two{
+    width:500px;
+    height:500px;
+    background:#9b52ff;
+    bottom:-250px;
+    left:-200px;
+    animation:orbTwo 18s ease-in-out infinite alternate;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    opacity:.5;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:80px 80px;
+}
+
+@keyframes orbOne{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(-100px,120px) scale(1.2);
+    }
+}
+
+@keyframes orbTwo{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(120px,-80px) scale(1.15);
+    }
+}
+
+/* ================= INTRO ================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-inner{
+    text-align:center;
+    animation:introContent 1.1s ease forwards;
+}
+
+.intro-icon{
+    width:75px;
+    height:75px;
+    margin:auto;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    background:linear-gradient(135deg,#617cff,#a568ff);
+    box-shadow:
+        0 0 60px rgba(105,120,255,.35);
+    animation:iconPulse 1.6s ease-in-out infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:48px;
+    margin-top:25px;
+}
+
+.intro p{
+    color:#777383;
+    margin-top:9px;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    background:linear-gradient(90deg,transparent,#7285ff,transparent);
+    margin:25px auto 0;
+    animation:lineGrow 1s ease .2s forwards;
+}
+
+@keyframes introContent{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+@keyframes lineGrow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes iconPulse{
+    50%{
+        transform:translateY(-5px) scale(1.04);
+    }
+}
+
+/* ================= NAV ================= */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s ease;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#647dff,#a666ff);
+    box-shadow:0 10px 35px rgba(100,110,255,.2);
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#fff;
+    transform:translateX(-4px);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:100vh;
+    padding:180px 8vw 100px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:80px;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.eyebrow{
+    color:#8294ff;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,125px);
+    line-height:.88;
+    letter-spacing:-5px;
+    margin-top:25px;
+}
+
+.hero h1 span{
+    color:#8294ff;
+}
+
+.hero p{
+    max-width:530px;
+    color:#9693a3;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* ================= FLOATING OBJECT ================= */
+
+.object{
+    width:350px;
+    min-width:350px;
+    height:440px;
+    padding:24px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:35px;
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.09),
+        rgba(255,255,255,.025)
+    );
+    backdrop-filter:blur(20px);
+    transform:rotate(5deg);
+    animation:objectFloat 7s ease-in-out infinite;
+    box-shadow:0 50px 100px rgba(0,0,0,.4);
+}
+
+.object-top{
+    display:flex;
+    justify-content:space-between;
+    color:#777484;
+    font-size:9px;
+    letter-spacing:2px;
+}
+
+.machine{
+    height:270px;
+    margin-top:25px;
+    border-radius:25px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:90px;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(90,120,255,.65),
+            transparent 38%
+        ),
+        #11111d;
+    box-shadow:inset 0 0 50px rgba(100,100,255,.08);
+}
+
+.object h2{
+    font-family:"Playfair Display",serif;
+    font-size:27px;
+    margin-top:20px;
+}
+
+.object small{
+    color:#777383;
+}
+
+@keyframes objectFloat{
+    0%,100%{
+        transform:translateY(0) rotate(5deg);
+    }
+    50%{
+        transform:translateY(-22px) rotate(-3deg);
+    }
+}
+
+/* ================= COLLECTION ================= */
+
+.section{
+    padding:140px 7vw;
+}
+
+.section h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,6vw,70px);
+    margin-top:15px;
+}
+
+.section-sub{
+    color:#858191;
+    margin-top:15px;
+}
+
+.equipment-grid{
+    margin-top:60px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.equipment{
+    min-height:310px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:28px;
+    padding:28px;
+    background:rgba(255,255,255,.045);
+    transition:.6s cubic-bezier(.2,.8,.2,1);
+    position:relative;
+    overflow:hidden;
+}
+
+.equipment::before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    background:#687cff;
+    filter:blur(80px);
+    opacity:0;
+    right:-50px;
+    top:-50px;
+    transition:.6s;
+}
+
+.equipment:hover{
+    transform:translateY(-12px);
+    border-color:rgba(120,140,255,.5);
+}
+
+.equipment:hover::before{
+    opacity:.25;
+}
+
+.equipment-icon{
+    width:60px;
+    height:60px;
+    border-radius:19px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,.07);
+    font-size:27px;
+}
+
+.equipment h3{
+    margin-top:35px;
+    font-size:21px;
+}
+
+.equipment p{
+    color:#858191;
+    line-height:1.6;
+    font-size:13px;
+    margin-top:10px;
+}
+
+.status{
+    display:inline-block;
+    margin-top:25px;
+    padding:7px 11px;
+    border-radius:30px;
+    background:rgba(100,240,180,.08);
+    color:#73e7b5;
+    font-size:10px;
+}
+
+/* ================= REVEAL ================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(45px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .hero{
+        display:block;
+    }
+
+    .object{
+        margin:80px auto 0;
+        max-width:100%;
+        min-width:0;
+    }
+
+    .equipment-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+}
+
+@media(max-width:500px){
+
+    .nav{
+        padding:16px 5vw;
+    }
+
+    .hero{
+        padding:140px 6vw 80px;
+    }
+
+    .object{
+        width:100%;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+    <div class="intro-inner">
+
+        <div class="intro-icon">⚙</div>
+
+        <h1>Equipment</h1>
+
+        <p>HouseMemory Collection 01</p>
+
+        <div class="intro-line"></div>
+
+    </div>
+</div>
+
+<div class="background">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="grid"></div>
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+        <div class="logo-icon">⌂</div>
+        <span>HouseMemory</span>
+    </div>
+
+    <a href="index.html" class="back">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            Collection 01 / Equipment
+        </div>
+
+        <h1>
+            Know what<br>
+            <span>keeps you going.</span>
+        </h1>
+
+        <p>
+            Your household's appliances, electronics and
+            essential equipment — remembered, organised
+            and never forgotten.
+        </p>
+
+    </div>
+
+    <div class="object">
+
+        <div class="object-top">
+            <span>HOUSE OBJECT</span>
+            <span>ACTIVE</span>
+        </div>
+
+        <div class="machine">
+            ⚙
+        </div>
+
+        <h2>Household Equipment</h2>
+
+        <small>
+            Everything that keeps the house running.
+        </small>
+
+    </div>
+
+</section>
+
+<section class="section">
+
+    <div class="reveal">
+
+        <div class="eyebrow">
+            Your collection
+        </div>
+
+        <h2>
+            Things that matter.
+        </h2>
+
+        <p class="section-sub">
+            A living inventory of your household equipment.
+        </p>
+
+    </div>
+
+    <div class="equipment-grid">
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">❄</div>
+            <h3>Refrigerator</h3>
+            <p>
+                Track purchase date, warranty and servicing.
+            </p>
+            <span class="status">● Operational</span>
+        </div>
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">📺</div>
+            <h3>Television</h3>
+            <p>
+                Keep model information and warranty details together.
+            </p>
+            <span class="status">● Operational</span>
+        </div>
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">💻</div>
+            <h3>Computer</h3>
+            <p>
+                Store specifications, ownership and important notes.
+            </p>
+            <span class="status">● Operational</span>
+        </div>
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">🌀</div>
+            <h3>Air Conditioner</h3>
+            <p>
+                Remember service history and filter maintenance.
+            </p>
+            <span class="status">● Operational</span>
+        </div>
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">☕</div>
+            <h3>Coffee Machine</h3>
+            <p>
+                Keep purchase and warranty information accessible.
+            </p>
+            <span class="status">● Operational</span>
+        </div>
+
+        <div class="equipment reveal">
+            <div class="equipment-icon">＋</div>
+            <h3>Add Equipment</h3>
+            <p>
+                Create another household object and give it a memory.
+            </p>
+            <span class="status">Add new →</span>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <span>HouseMemory</span>
+    <span>Your home remembers.</span>
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(element){
+    observer.observe(element);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>

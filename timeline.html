@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Timeline — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#070711;
+    color:#f5f3ff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    width:550px;
+    height:550px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.2;
+}
+
+.orb.a{
+    background:#7863ff;
+    top:-250px;
+    left:-180px;
+    animation:orbA 17s ease-in-out infinite alternate;
+}
+
+.orb.b{
+    background:#4ecfff;
+    right:-200px;
+    bottom:-250px;
+    animation:orbB 19s ease-in-out infinite alternate;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:80px 80px;
+}
+
+@keyframes orbA{
+    to{
+        transform:translate(120px,100px) scale(1.2);
+    }
+}
+
+@keyframes orbB{
+    to{
+        transform:translate(-100px,-100px) scale(1.15);
+    }
+}
+
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-content{
+    text-align:center;
+}
+
+.intro-icon{
+    width:75px;
+    height:75px;
+    border-radius:25px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    background:linear-gradient(135deg,#687bff,#61dfff);
+    animation:floatIcon 1.8s ease-in-out infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:50px;
+    margin-top:25px;
+}
+
+.intro p{
+    color:#777383;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-top:8px;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    margin:25px auto;
+    background:linear-gradient(90deg,transparent,#6fdfff,transparent);
+    animation:grow 1s ease .2s forwards;
+}
+
+@keyframes floatIcon{
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+@keyframes grow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#687bff,#61dfff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:white;
+    transform:translateX(-4px);
+}
+
+/* HERO */
+
+.hero{
+    min-height:75vh;
+    padding:180px 8vw 100px;
+}
+
+.eyebrow{
+    color:#7bdcff;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,120px);
+    line-height:.88;
+    margin-top:25px;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#70dfff;
+}
+
+.hero p{
+    color:#9692a3;
+    max-width:550px;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* TIMELINE */
+
+.timeline-section{
+    padding:100px 10vw 160px;
+}
+
+.timeline{
+    position:relative;
+    margin-top:70px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255,255,255,.25),
+        transparent
+    );
+}
+
+.event{
+    width:50%;
+    padding:35px 50px;
+    position:relative;
+}
+
+.event:nth-child(even){
+    margin-left:50%;
+}
+
+.event::after{
+    content:"";
+    position:absolute;
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    background:#73dfff;
+    box-shadow:
+        0 0 20px #73dfff,
+        0 0 40px rgba(115,223,255,.3);
+    top:50px;
+    animation:dotPulse 2s ease-in-out infinite;
+}
+
+.event:nth-child(odd)::after{
+    right:-6px;
+}
+
+.event:nth-child(even)::after{
+    left:-6px;
+}
+
+@keyframes dotPulse{
+    50%{
+        transform:scale(1.5);
+    }
+}
+
+.event-card{
+    padding:27px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:25px;
+    background:rgba(255,255,255,.045);
+    transition:.5s cubic-bezier(.2,.8,.2,1);
+}
+
+.event-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(100,220,255,.45);
+    box-shadow:0 25px 70px rgba(0,0,0,.25);
+}
+
+.date{
+    color:#70dfff;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.event h2{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+    margin-top:10px;
+}
+
+.event p{
+    color:#7d7989;
+    line-height:1.6;
+    font-size:13px;
+    margin-top:10px;
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+/* FOOTER */
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+@media(max-width:700px){
+
+    .timeline::before{
+        left:6px;
+    }
+
+    .event,
+    .event:nth-child(even){
+        width:100%;
+        margin-left:0;
+        padding-left:35px;
+        padding-right:0;
+    }
+
+    .event::after,
+    .event:nth-child(odd)::after,
+    .event:nth-child(even)::after{
+        left:1px;
+        right:auto;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-icon">
+            ◷
+        </div>
+
+        <h1>
+            Timeline
+        </h1>
+
+        <p>
+            HouseMemory Collection 06
+        </p>
+
+        <div class="intro-line"></div>
+
+    </div>
+
+</div>
+
+<div class="bg">
+
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+
+    <div class="grid"></div>
+
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ⌂
+        </div>
+
+        <span>
+            HouseMemory
+        </span>
+
+    </div>
+
+    <a class="back" href="index.html">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="eyebrow">
+        Collection 06 / Timeline
+    </div>
+
+    <h1>
+        The story<br>
+        <span>of your home.</span>
+    </h1>
+
+    <p>
+        A living record of the things that happened,
+        changed, broke, were repaired and remembered.
+    </p>
+
+</section>
+
+<section class="timeline-section">
+
+    <div class="timeline">
+
+        <div class="event reveal">
+
+            <div class="event-card">
+
+                <div class="date">
+                    AUGUST 2026
+                </div>
+
+                <h2>
+                    HouseMemory began.
+                </h2>
+
+                <p>
+                    The household archive was created
+                    to bring everything together.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="event reveal">
+
+            <div class="event-card">
+
+                <div class="date">
+                    JULY 2026
+                </div>
+
+                <h2>
+                    The living room was updated.
+                </h2>
+
+                <p>
+                    New equipment was added to
+                    the household collection.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="event reveal">
+
+            <div class="event-card">
+
+                <div class="date">
+                    JUNE 2026
+                </div>
+
+                <h2>
+                    A new memory was preserved.
+                </h2>
+
+                <p>
+                    An important household moment
+                    was added to the archive.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="event reveal">
+
+            <div class="event-card">
+
+                <div class="date">
+                    MAY 2026
+                </div>
+
+                <h2>
+                    Something was repaired.
+                </h2>
+
+                <p>
+                    Maintenance history became part
+                    of the home's permanent record.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="event reveal">
+
+            <div class="event-card">
+
+                <div class="date">
+                    EARLIER
+                </div>
+
+                <h2>
+                    The story continues.
+                </h2>
+
+                <p>
+                    Add another event and let
+                    HouseMemory grow with your home.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <span>
+        HouseMemory
+    </span>
+
+    <span>
+        Your home remembers.
+    </span>
+
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(el){
+    observer.observe(el);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>

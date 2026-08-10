@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Household — HouseMemory</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#070711;
+    color:#f5f3ff;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
+}
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+}
+
+.orb{
+    position:absolute;
+    width:550px;
+    height:550px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.2;
+}
+
+.orb.a{
+    background:#6c74ff;
+    top:-250px;
+    left:-180px;
+    animation:orbA 16s ease-in-out infinite alternate;
+}
+
+.orb.b{
+    background:#a05cff;
+    bottom:-250px;
+    right:-180px;
+    animation:orbB 18s ease-in-out infinite alternate;
+}
+
+@keyframes orbA{
+    to{
+        transform:translate(100px,100px) scale(1.2);
+    }
+}
+
+@keyframes orbB{
+    to{
+        transform:translate(-100px,-100px) scale(1.15);
+    }
+}
+
+/* INTRO */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#06060d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    pointer-events:none;
+    animation:introOut 1s ease 1.4s forwards;
+}
+
+.intro-content{
+    text-align:center;
+}
+
+.intro-icon{
+    width:75px;
+    height:75px;
+    margin:auto;
+    border-radius:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    background:linear-gradient(135deg,#657bff,#a064ff);
+    animation:float 1.7s ease-in-out infinite;
+}
+
+.intro h1{
+    font-family:"Playfair Display",serif;
+    font-size:48px;
+    margin-top:25px;
+}
+
+.intro p{
+    color:#777383;
+    text-align:center;
+    font-size:10px;
+    letter-spacing:4px;
+    margin-top:8px;
+}
+
+.intro-line{
+    width:0;
+    height:1px;
+    margin:25px auto;
+    background:linear-gradient(90deg,transparent,#887cff,transparent);
+    animation:grow 1s ease .2s forwards;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+@keyframes grow{
+    to{
+        width:150px;
+    }
+}
+
+@keyframes introOut{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* NAV */
+
+.nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:20px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:500;
+    transition:.4s;
+}
+
+.nav.scrolled{
+    background:rgba(7,7,17,.72);
+    backdrop-filter:blur(22px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#657bff,#a064ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.back{
+    color:#aaa6b7;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#fff;
+    transform:translateX(-4px);
+}
+
+/* HERO */
+
+.hero{
+    min-height:70vh;
+    padding:180px 8vw 80px;
+}
+
+.eyebrow{
+    color:#9386ff;
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(65px,9vw,120px);
+    line-height:.88;
+    margin-top:25px;
+    letter-spacing:-4px;
+}
+
+.hero h1 span{
+    color:#8b7cff;
+}
+
+.hero p{
+    color:#9692a2;
+    max-width:550px;
+    line-height:1.8;
+    margin-top:35px;
+}
+
+/* HOUSEHOLD */
+
+.household{
+    padding:80px 7vw 150px;
+}
+
+.household-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-top:50px;
+}
+
+.person{
+    min-height:420px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:30px;
+    background:rgba(255,255,255,.045);
+    padding:20px;
+    transition:.6s cubic-bezier(.2,.8,.2,1);
+}
+
+.person:hover{
+    transform:translateY(-12px);
+    border-color:rgba(135,125,255,.45);
+}
+
+.avatar{
+    height:260px;
+    border-radius:22px;
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(130,120,255,.5),
+            transparent 40%
+        ),
+        #141321;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:100px;
+}
+
+.person h2{
+    font-family:"Playfair Display",serif;
+    font-size:27px;
+    margin-top:20px;
+}
+
+.role{
+    color:#777383;
+    font-size:10px;
+    margin-top:5px;
+    letter-spacing:1px;
+}
+
+.info{
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+    flex-wrap:wrap;
+}
+
+.info span{
+    padding:7px 10px;
+    border-radius:20px;
+    background:rgba(255,255,255,.06);
+    color:#9a96a7;
+    font-size:10px;
+}
+
+.add{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    cursor:pointer;
+}
+
+.add-icon{
+    font-size:60px;
+    color:#858096;
+    transition:.5s;
+}
+
+.add:hover .add-icon{
+    transform:rotate(90deg) scale(1.1);
+    color:#9b89ff;
+}
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+footer{
+    padding:35px 7vw;
+    border-top:1px solid rgba(255,255,255,.08);
+    display:flex;
+    justify-content:space-between;
+    color:#696675;
+    font-size:11px;
+}
+
+@media(max-width:800px){
+
+    .household-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-icon">⌂</div>
+
+        <h1>Household</h1>
+
+        <p>HouseMemory Collection 05</p>
+
+        <div class="intro-line"></div>
+
+    </div>
+
+</div>
+
+<div class="bg">
+
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+
+</div>
+
+<nav class="nav" id="nav">
+
+    <div class="logo">
+        <div class="logo-icon">⌂</div>
+        <span>HouseMemory</span>
+    </div>
+
+    <a class="back" href="index.html">
+        ← Back to archive
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <div class="eyebrow">
+        Collection 05 / Household
+    </div>
+
+    <h1>
+        The people<br>
+        <span>behind the home.</span>
+    </h1>
+
+    <p>
+        Household members, profiles and responsibilities
+        stay connected to the same place they call home.
+    </p>
+
+</section>
+
+<section class="household">
+
+    <div class="household-grid">
+
+        <div class="person reveal">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <h2>
+                Household Member
+            </h2>
+
+            <div class="role">
+                PRIMARY MEMBER
+            </div>
+
+            <div class="info">
+                <span>Profile</span>
+                <span>Documents</span>
+                <span>Tasks</span>
+            </div>
+
+        </div>
+
+        <div class="person reveal">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <h2>
+                Household Member
+            </h2>
+
+            <div class="role">
+                FAMILY MEMBER
+            </div>
+
+            <div class="info">
+                <span>Profile</span>
+                <span>Tasks</span>
+            </div>
+
+        </div>
+
+        <div class="person reveal">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <h2>
+                Household Member
+            </h2>
+
+            <div class="role">
+                FAMILY MEMBER
+            </div>
+
+            <div class="info">
+                <span>Profile</span>
+                <span>Documents</span>
+            </div>
+
+        </div>
+
+        <div class="person add reveal">
+
+            <div class="add-icon">
+                ＋
+            </div>
+
+            <h2>
+                Add member
+            </h2>
+
+            <div class="role">
+                INVITE SOMEONE TO THE HOUSE
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <span>HouseMemory</span>
+    <span>Your home remembers.</span>
+</footer>
+
+<script>
+window.addEventListener("scroll",function(){
+
+    const nav=document.getElementById("nav");
+
+    if(nav){
+        nav.classList.toggle(
+            "scrolled",
+            window.scrollY>40
+        );
+    }
+
+});
+
+const observer=new IntersectionObserver(
+    function(entries){
+
+        entries.forEach(function(entry){
+
+            if(entry.isIntersecting){
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    },
+    {
+        threshold:.1
+    }
+);
+
+document.querySelectorAll(".reveal")
+.forEach(function(el){
+    observer.observe(el);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="app.js"></script>
+<script src="ai-assistant.js"></script>
+</body>
+</html>
